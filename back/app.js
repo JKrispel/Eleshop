@@ -1,24 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const productsRoutes = require('./routes/products');
-const { db } = require('./firebase'); 
-app.use(express.json());
-const app = express();
-app.use(cors());
+const { db } = require('./firebase-config'); 
 
+const app = express(); // Inicjalizacja aplikacji
+
+app.use(express.json()); // Middleware do parsowania JSON
+app.use(cors()); // Middleware CORS
+
+// Obsługa routingu produktów
 app.use('/api/products', productsRoutes);
 
+// Obsługa nieznalezionych tras
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ error: 'Route not found ale diala' });
 });
 
-
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-  
-});
-
+// Endpoint: Pobierz użytkowników
 app.get('/users', async (req, res) => {
     try {
         const usersSnapshot = await db.collection('Users').get();
@@ -29,7 +27,7 @@ app.get('/users', async (req, res) => {
     }
 });
 
-// GET:all orders
+// Endpoint: Pobierz wszystkie zamówienia
 app.get('/orders', async (req, res) => {
     try {
         const ordersSnapshot = await db.collection('Orders').get();
@@ -40,7 +38,7 @@ app.get('/orders', async (req, res) => {
     }
 });
 
-// GET: all products
+// Endpoint: Pobierz wszystkie produkty
 app.get('/products', async (req, res) => {
     try {
         const productsSnapshot = await db.collection('Products').get();
@@ -51,7 +49,7 @@ app.get('/products', async (req, res) => {
     }
 });
 
-// GET: Fetch product by ID or name
+// Endpoint: Pobierz produkt po ID lub nazwie
 app.get('/products/:id', async (req, res) => {
     const productId = req.params.id;
     try {
@@ -74,7 +72,7 @@ app.get('/products/:id', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT; 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
