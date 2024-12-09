@@ -16,7 +16,6 @@ const Home = () => {
     { id: 7, name: 'Mikrofalówka', category: 'Appliances', image: 'https://via.placeholder.com/150' },
   ];
 
-  // Polecane produkty - wybieramy po jednym z każdej kategorii
   const recommendedProducts = products.reduce((acc, product) => {
     if (!acc.find((item) => item.category === product.category)) {
       acc.push(product);
