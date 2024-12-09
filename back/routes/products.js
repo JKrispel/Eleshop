@@ -17,7 +17,7 @@ router.get('/test', async (req, res) => {
 //połączenie z bazą danych
 router.get('/test_bazy', async (req, res) => {
     try {
-        const snapshot = await db.collection('products').limit(1).get();
+        const snapshot = await db.collection('Products').limit(1).get();
         if (snapshot.empty) {
             res.status(200).json({ message: "Connected to database, but no data found." });
         } else {
@@ -28,5 +28,28 @@ router.get('/test_bazy', async (req, res) => {
         res.status(500).json({ message: "Failed to connect to database", error: error.message });
     }
 });
+
+// Trasa zwracająca listę produktów
+router.get('/', async (req, res) => {
+    try {
+        const snapshot = await db.collection('Products').get();
+
+        if (snapshot.empty) {
+            return res.status(200).json({ message: "No products found." });
+        }
+
+        // Tworzymy listę produktów na podstawie danych z Firestore
+        const products = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        res.status(200).json(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ message: "Failed to fetch products", error: error.message });
+    }
+});
+
 
 module.exports = router;
