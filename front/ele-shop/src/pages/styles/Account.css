@@ -1,0 +1,15 @@
+.account-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .account-title {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .account-message {
+    font-size: 1rem;
+    color: #555;
+  }
+  

@@ -1,0 +1,23 @@
+.product-details-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .product-details-image {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .product-details-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .product-details-description {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  

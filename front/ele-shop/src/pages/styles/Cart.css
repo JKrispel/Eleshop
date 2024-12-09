@@ -1,0 +1,15 @@
+.cart-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .cart-title {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .cart-message {
+    font-size: 1rem;
+    color: #777;
+  }
+  

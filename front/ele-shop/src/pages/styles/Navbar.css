@@ -1,0 +1,53 @@
+/* Styl ogólny nawigacji */
+#navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #2e3b4e; /* Modernistyczny, ciemny kolor */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 10px 0;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* Styl dla linków */
+.navbar-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Efekty hover i focus */
+.navbar-link:hover {
+  background-color: #007bff;
+  transform: translateY(-3px);
+}
+
+.navbar-link:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+}
+
+/* Styl mobilny */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar-link {
+    font-size: 1rem;
+    padding: 8px 15px;
+  }
+}
