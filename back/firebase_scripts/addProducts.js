@@ -1,4 +1,7 @@
-// skrypt dodający przykładowe produkty (WIP)
+// skrypt dodający przykładowe produkty
+// instrukcja dla skryptów:
+// w folderze 'back' wprowadź do terminala
+// node firebase_scripts/addProducts.js     
 const { db } = require('../firebase-config');
 
 const products = [
