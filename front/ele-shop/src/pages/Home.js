@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './styles/Home.css';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [products, setProducts] = useState([]); // Dynamiczna lista produktów
+  const [loading, setLoading] = useState(true); // Indikator ładowania
+  const [error, setError] = useState(null);
 
-  const products = [
-    { id: 1, name: 'Laptop', category: 'Laptop', image: 'https://via.placeholder.com/150' },
-    { id: 2, name: 'Smartphone', category: 'Smartphone', image: 'https://via.placeholder.com/150' },
-    { id: 3, name: 'Tablet', category: 'Tablet', image: 'https://via.placeholder.com/150' },
-    { id: 4, name: 'Smartwatch', category: 'Wearables', image: 'https://via.placeholder.com/150' },
-    { id: 5, name: 'Headphones', category: 'Accessories', image: 'https://via.placeholder.com/150' },
-    { id: 6, name: 'Pralka', category: 'Appliances', image: 'https://via.placeholder.com/150' },
-    { id: 7, name: 'Mikrofalówka', category: 'Appliances', image: 'https://via.placeholder.com/150' },
-  ];
+  // Funkcja pobierająca dane z backendu
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/products'); 
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
+        setProducts(data); // Ustawienie stanu na pobrane produkty
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchProducts();
+  }, []);
+
+  // Produkty polecane (grupowanie według kategorii)
   const recommendedProducts = products.reduce((acc, product) => {
     if (!acc.find((item) => item.category === product.category)) {
       acc.push(product);
@@ -23,39 +37,47 @@ const Home = () => {
     return acc;
   }, []);
 
+  // Filtrowanie produktów na podstawie wyszukiwania i kategorii
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ['All', 'Laptop', 'Smartphone', 'Tablet', 'Wearables', 'Accessories', 'Appliances'];
+  const categories = ['All', ...new Set(products.map((product) => product.category))];
+
+  if (loading) {
+    return <div>Loading products...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="home-page">
       <div className="main-content">
         <div className='search-container'>
-                  <h1 className="home-title">Welcome to the EleShop</h1>
+          <h1 className="home-title">Welcome to the EleShop</h1>
 
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button className="SearchButton">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              className="search-icon"
-            >
-              <path d="M10 2a8 8 0 105.293 13.707l4.828 4.829a1 1 0 101.415-1.415l-4.829-4.828A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
-            </svg>
-          </button>
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button className="SearchButton">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="search-icon"
+              >
+                <path d="M10 2a8 8 0 105.293 13.707l4.828 4.829a1 1 0 101.415-1.415l-4.829-4.828A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
+              </svg>
+            </button>
+          </div>
         </div>
-        </div>
-
 
         <div className="category-filter">
           <label htmlFor="category-select">Filter by category:</label>

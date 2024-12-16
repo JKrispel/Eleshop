@@ -1,78 +1,118 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./styles/Cart.css";
 
-// Sample data for products
-const productsData = [
-  { id: 1, name: "Laptop", image: "https://via.placeholder.com/150", quantity: 1 },
-  { id: 2, name: "Smartphone", image: "https://via.placeholder.com/150", quantity: 2 },
-  { id: 3, name: "Tablet", image: "https://via.placeholder.com/150", quantity: 1 },
-];
-
 const Cart = () => {
-  const [products, setProducts] = useState(productsData);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const updateQuantity = (id, delta) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === id
-          ? { ...product, quantity: Math.max(1, product.quantity + delta) }
-          : product
-      )
-    );
+  const userId = "ExampleUser"; // Zastąp tym faktycznym ID użytkownika
+
+  // Pobierz produkty z koszyka po załadowaniu komponentu
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/cart/${userId}`
+        );
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Błąd przy pobieraniu danych koszyka:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
+  // Aktualizacja ilości produktu
+  const updateQuantity = async (id, delta) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/api/cart/${userId}/update`,
+        { productId: id, delta } // Backend aktualizuje ilość
+      );
+      setProducts(response.data); // Aktualizujemy stan z nowymi danymi
+    } catch (error) {
+      console.error("Błąd przy aktualizacji ilości produktu:", error);
+    }
   };
 
-  const removeProduct = (id) => {
-    setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
+  // Usuwanie produktu z koszyka
+  const removeProduct = async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:4000/api/cart/${userId}/remove/${id}`
+      );
+      setProducts(response.data); // Aktualizujemy stan po usunięciu
+    } catch (error) {
+      console.error("Błąd przy usuwaniu produktu:", error);
+    }
   };
+
+  if (loading) return <h2>Ładowanie koszyka...</h2>;
 
   return (
     <div className="cart-container">
-      <h1 className="cart-title">Your Cart</h1>
-
-      {/* Product List */}
+      <h1 className="cart-title">Twój Koszyk</h1>
       <div className="cart-products">
         {products.map((product) => (
           <div key={product.id} className="cart-product">
-            <img src={product.image} alt={product.name} className="product-image" />
+            <img
+              src={product.imageUrl || "https://via.placeholder.com/150"}
+              alt={product.name}
+              className="product-image"
+            />
             <div className="product-details">
               <h2 className="product-name">{product.name}</h2>
+              <p className="product-price">{product.price} PLN</p>
             </div>
             <div className="quantity-controls">
-              <button className="quantity-button" onClick={() => updateQuantity(product.id, -1)}>
+              <button
+                className="quantity-button"
+                onClick={() => updateQuantity(product.id, -1)}
+              >
                 -
               </button>
               <span className="product-quantity">{product.quantity}</span>
-              <button className="quantity-button" onClick={() => updateQuantity(product.id, 1)}>
+              <button
+                className="quantity-button"
+                onClick={() => updateQuantity(product.id, 1)}
+              >
                 +
               </button>
             </div>
-            <button className="trash-button" onClick={() => removeProduct(product.id)}>
+            <button
+              className="trash-button"
+              onClick={() => removeProduct(product.id)}
+            >
               🗑️
             </button>
           </div>
         ))}
       </div>
-
-      {/* Form Section */}
       <div className="cart-form">
-        <h2>Delivery Details</h2>
+        <h2>Szczegóły dostawy</h2>
         <form>
-          <input type="text" placeholder="Full Name" className="form-input" required />
-          <input type="email" placeholder="Email Address" className="form-input" required />
-          <input type="text" placeholder="Phone Number" className="form-input" required />
-          <input type="text" placeholder="Address" className="form-input" required />
-          <input type="text" placeholder="City" className="form-input" required />
-          <input type="text" placeholder="Postal Code" className="form-input" required />
+          <input type="text" placeholder="Imię i nazwisko" className="form-input" required />
+          <input type="email" placeholder="Adres e-mail" className="form-input" required />
+          <input type="text" placeholder="Numer telefonu" className="form-input" required />
+          <input type="text" placeholder="Adres" className="form-input" required />
+          <input type="text" placeholder="Miasto" className="form-input" required />
+          <input type="text" placeholder="Kod pocztowy" className="form-input" required />
           <div className="form-buttons">
-            <button type="submit" className="cart-button">Place Order</button>
+            <button type="submit" className="cart-button">
+              Złóż zamówienie
+            </button>
             <button
               type="button"
               className="return-button"
               onClick={() => navigate("/")}
             >
-              Return to Home
+              Powrót do strony głównej
             </button>
           </div>
         </form>
