@@ -17,6 +17,7 @@ const Cart = () => {
         const response = await axios.get(
           `http://localhost:4000/api/cart/${userId}`
         );
+        console.log('Cart API response:', response.data);
         setProducts(response.data);
       } catch (error) {
         console.error("Błąd przy pobieraniu danych koszyka:", error);

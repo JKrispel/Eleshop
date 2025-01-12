@@ -72,30 +72,69 @@ router.post('/:userId', async (req, res) => {
 
 
 // Aktualizuj produkt w koszyku
-router.put('/:userId/:productId', async (req, res) => {
-  const { userId, productId } = req.params;
-  const { quantity } = req.body;
+router.put('/:userId/update', async (req, res) => {
+  const { userId } = req.params;
+  const { productId, delta } = req.body;
 
   try {
-    const itemRef = doc(db, 'carts', userId, 'items', productId);
-    await updateDoc(itemRef, { quantity });
-    res.status(200).json({ message: 'Produkt zaktualizowany' });
+    const itemRef = db.collection('Users').doc(userId).collection('Cart').doc(productId);
+    const itemSnapshot = await itemRef.get();
+
+    if (!itemSnapshot.exists) {
+      return res.status(404).json({ error: "Produkt nie znaleziony w koszyku" });
+    }
+
+    const currentData = itemSnapshot.data();
+    const currentQuantity = currentData.quantity || 0;
+    const newQuantity = currentQuantity + delta;
+
+    if (newQuantity < 0) {
+      return res.status(400).json({ error: "Ilość nie może być mniejsza niż zero" });
+    }
+
+    await itemRef.update({ quantity: newQuantity });
+
+    // Fetch and return the updated cart
+    const cartRef = db.collection('Users').doc(userId).collection('Cart');
+    const cartSnapshot = await cartRef.get();
+    const updatedCart = [];
+    cartSnapshot.forEach((doc) => {
+      updatedCart.push({ id: doc.id, ...doc.data() });
+    });
+
+    res.status(200).json(updatedCart); // Return the updated cart as an array
   } catch (error) {
-    res.status(500).json({ error: 'Nie udało się zaktualizować produktu', details: error.message });
+    console.error('Error updating product quantity:', error);
+    res.status(500).json({
+      error: 'Nie udało się zaktualizować ilości produktu',
+      details: error.message,
+    });
   }
 });
+
+
+
 
 // Usuń produkt z koszyka
 router.delete('/:userId/:productId', async (req, res) => {
   const { userId, productId } = req.params;
 
   try {
-    const itemRef = doc(db, 'carts', userId, 'items', productId);
-    await deleteDoc(itemRef);
+    // Reference to the specific product in the Cart subcollection
+    const itemRef = db.collection('Users').doc(userId).collection('Cart').doc(productId);
+
+    // Delete the product from the cart
+    await itemRef.delete();
+
     res.status(200).json({ message: 'Produkt usunięty z koszyka' });
   } catch (error) {
-    res.status(500).json({ error: 'Nie udało się usunąć produktu', details: error.message });
+    console.error('Error deleting product from cart:', error);
+    res.status(500).json({
+      error: 'Nie udało się usunąć produktu',
+      details: error.message,
+    });
   }
 });
+
 
 module.exports = router;
