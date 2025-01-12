@@ -8,7 +8,7 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const userId = "ExampleUser"; // Zastąp tym faktycznym ID użytkownika
+  const userId = "TestUser"; // Zastąp tym faktycznym ID użytkownika
 
   // Pobierz produkty z koszyka po załadowaniu komponentu
   useEffect(() => {

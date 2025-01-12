@@ -5,60 +5,71 @@ const { collection, doc, getDoc, setDoc, updateDoc, deleteDoc, getDocs } = requi
 const router = express.Router();
 
 router.get('/:userId', async (req, res) => {
-    const { userId } = req.params;
-  
-    try {
-      // Pobierz zamówienia użytkownika
-      const ordersRef = collection(db, "Orders");
-      const ordersSnapshot = await getDocs(ordersRef);
-  
-      // Filtruj zamówienia, aby znaleźć te z odpowiednim userId
-      let orderId = null;
-      ordersSnapshot.forEach(orderDoc => {
-        const orderData = orderDoc.data();
-        if (orderData.userId === userId) {
-          orderId = orderDoc.id; // ID zamówienia
-        }
-      });
-  
-      if (!orderId) {
-        return res.status(404).json({ error: "Nie znaleziono zamówienia dla tego użytkownika" });
-      }
-  
-      // Referencja do podkolekcji OrderedProducts
-      const orderedProductsRef = collection(db, "Orders", orderId, "OrderedProducts");
-      const orderedProductsSnapshot = await getDocs(orderedProductsRef);
-  
-      // Pobierz produkty z podkolekcji
-      const items = [];
-      orderedProductsSnapshot.forEach(doc => {
-        items.push({ id: doc.id, ...doc.data() });
-      });
-  
-      // Zwróć produkty jako JSON
-      res.status(200).json(items);
-    } catch (error) {
-      res.status(500).json({
-        error: 'Nie udało się pobrać produktów',
-        details: error.message
-      });
-    }
-  });
-  
-
-// Dodaj produkt do koszyka
-router.post('/:userId', async (req, res) => {
   const { userId } = req.params;
-  const { productId, name, quantity, price } = req.body;
 
   try {
-    const itemRef = doc(db, 'carts', userId, 'items', productId);
-    await setDoc(itemRef, { name, quantity, price });
-    res.status(201).json({ message: 'Produkt dodany do koszyka' });
+    // Reference to the Cart subcollection under the user document
+    const cartRef = db.collection('Users').doc(userId).collection('Cart');
+
+    // Get all documents from the Cart subcollection
+    const cartSnapshot = await cartRef.get();
+
+    if (cartSnapshot.empty) {
+      return res.status(404).json({ error: "Koszyk użytkownika jest pusty" });
+    }
+
+    // Fetch and format the cart items
+    const items = [];
+    cartSnapshot.forEach((doc) => {
+      items.push({ id: doc.id, ...doc.data() });
+    });
+
+    // Return the cart items as JSON
+    res.status(200).json(items);
   } catch (error) {
-    res.status(500).json({ error: 'Nie udało się dodać produktu', details: error.message });
+    console.error('Error fetching cart items:', error);
+    res.status(500).json({
+      error: 'Nie udało się pobrać produktów z koszyka',
+      details: error.message,
+    });
   }
 });
+
+  
+
+// Add product to cart
+router.post('/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const { productId, quantity } = req.body; // Removed 'price' and 'name'
+
+  try {
+    // Reference to the Cart subcollection under the user document
+    const itemRef = db
+      .collection('Users') // Top-level 'Users' collection
+      .doc(userId) // Specific user document
+      .collection('Cart') // Subcollection 'Cart'
+      .doc(productId); // Specific product document in the Cart
+
+    // Get the current document to check if it already exists
+    const itemSnapshot = await itemRef.get();
+    if (itemSnapshot.exists) {
+      const existingData = itemSnapshot.data();
+      const newQuantity = existingData.quantity + quantity;
+
+      // Update the cart item with the new quantity
+      await itemRef.set({ quantity: newQuantity }, { merge: true });
+    } else {
+      // Add the product to the cart with the specified quantity
+      await itemRef.set({ quantity });
+    }
+
+    res.status(201).json({ message: 'Product added to cart successfully' });
+  } catch (error) {
+    console.error('Error adding product to cart:', error);
+    res.status(500).json({ error: 'Failed to add product to cart', details: error.message });
+  }
+});
+
 
 // Aktualizuj produkt w koszyku
 router.put('/:userId/:productId', async (req, res) => {
