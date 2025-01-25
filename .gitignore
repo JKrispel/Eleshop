@@ -1,3 +1,4 @@
 node_modules/
 .env
 eleshop-94c3b-firebase-adminsdk-xpme7-eb87c79994.json
+serviceAccountKey.json
