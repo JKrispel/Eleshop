@@ -1,24 +1,53 @@
-const express = require('express');
-const cors = require('cors');
-const productsRoutes = require('./routes/products');
-const cartRoutes = require('./routes/cart')
-const { db } = require('./firebase-config'); 
+require('dotenv').config(); // Load environment variables
 
-const app = express(); // Inicjalizacja aplikacji
+(async () => {
+  const fetchModule = await import('node-fetch');
+  global.fetch = fetchModule.default;
+  global.Headers = fetchModule.Headers;
+  global.Response = fetchModule.Response;
 
-app.use(express.json()); // Middleware do parsowania JSON
-app.use(cors()); // Middleware CORS
+  const express = require('express');
+  const cors = require('cors');
+  const productsRoutes = require('./routes/products');
+  const cartRoutes = require('./routes/cart');
+  const authRoutes = require('./routes/auth');
+  const { db } = require('./firebase-config');
 
-// Obsługa routingu produktów
-app.use('/api/products', productsRoutes);
-app.use('/api/cart', cartRoutes);
-// Obsługa nieznalezionych tras
-app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found ale diala' });
-});
+  const admin = require('firebase-admin');
+  const serviceAccount = require('./eleshop-94c3b-firebase-adminsdk-xpme7-eb87c79994.json'); // Replace with your key file
 
+  // Initialize Firebase Admin SDK
+  if (!admin.apps.length) {
+      admin.initializeApp({
+          credential: admin.credential.cert(serviceAccount),
+          databaseURL: process.env.FIREBASE_DATABASE_URL,
+      });
+  }
 
-const PORT = process.env.PORT; 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+  const app = express();
+  app.use(express.json());
+  app.use(cors());
+
+  app.use('/api/products', productsRoutes);
+  app.use('/api/cart', cartRoutes);
+  app.use('/api/auth', authRoutes);
+
+  app.get('/api/external', async (req, res) => {
+      try {
+          const response = await fetch('https://api.example.com/data');
+          const data = await response.json();
+          res.json(data);
+      } catch (error) {
+          res.status(500).json({ error: 'Failed to fetch data' });
+      }
+  });
+
+  app.use((req, res) => {
+      res.status(404).json({ error: 'Route not found' });
+  });
+
+  const PORT = process.env.PORT || 4000;
+  app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+  });
+})();

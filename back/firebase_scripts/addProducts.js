@@ -160,7 +160,7 @@ const products = [
     imageUrl: "https://i.imgur.com/xyz17vwx.jpeg"
   },
   {
-    description: "Wytrzymały smartfon z dużym ekranem iOS.",
+    description: "Wytrzymały (xd wytrzymały) smartfon z dużym ekranem iOS.",
     category: "Telefony",
     name: "Smartphone Apple iPhone SE 2022",
     price: 2600,

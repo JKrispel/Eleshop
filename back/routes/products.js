@@ -1,5 +1,6 @@
 const express = require('express');
 const { db } = require('../firebase-config');
+const { collection, getDocs } = require('firebase/firestore'); // Import Firestore functions
 const router = express.Router();
 
 
@@ -32,7 +33,8 @@ router.get('/test_bazy', async (req, res) => {
 // Trasa zwracająca listę produktów
 router.get('/', async (req, res) => {
     try {
-        const snapshot = await db.collection('Products').get();
+        const productsCollection = collection(db, 'Products'); // Use collection function
+        const snapshot = await getDocs(productsCollection); // Use getDocs function
 
         if (snapshot.empty) {
             return res.status(200).json({ message: "No products found." });
