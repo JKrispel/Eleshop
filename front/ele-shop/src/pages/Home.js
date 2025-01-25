@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './styles/Home.css';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./styles/Home.css";
 import axios from "axios";
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [products, setProducts] = useState([]); // Dynamiczna lista produktów
   const [loading, setLoading] = useState(true); // Indikator ładowania
   const [error, setError] = useState(null);
 
-  // Funkcja pobierająca dane z backendu
+  // Pobranie tokena z localStorage
+  const token = localStorage.getItem("authToken");
+
+  // Funkcja pobierająca produkty z backendu
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/products'); 
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-        const data = await response.json();
-        setProducts(data); 
+        const response = await axios.get("http://localhost:4000/api/products");
+        setProducts(response.data);
       } catch (err) {
-        setError(err.message);
+        console.error("Błąd przy pobieraniu produktów:", err.message);
+        setError("Nie udało się pobrać produktów. Spróbuj ponownie później.");
       } finally {
         setLoading(false);
       }
@@ -30,50 +30,53 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  // Funkcja pobierająca koszyk użytkownika (opcjonalnie, jeśli potrzebujesz koszyka w Home)
   const fetchCart = async () => {
     try {
-      const token = localStorage.getItem("authToken");
-      console.log('Token:', token);
       if (!token) {
-        throw new Error('No token found');
+        console.error("Brak tokenu. Użytkownik niezalogowany.");
+        return;
       }
-      const response = await axios.get('http://localhost:4000/api/cart', {
+      const response = await axios.get("http://localhost:4000/api/cart", {
         headers: {
-          Authorization: `Bearer ${token}` // Ensure the token is sent
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
-      console.log('Cart items:', response.data);
+      console.log("Koszyk użytkownika:", response.data);
     } catch (error) {
-      console.error('Error fetching cart items:', error.response?.data || error.message);
+      console.error("Błąd przy pobieraniu koszyka:", error.response?.data || error.message);
     }
   };
 
   useEffect(() => {
     fetchCart();
-  }, []);
+  }, [token]);
 
-  // Add product to cart
+  // Dodaj produkt do koszyka
   const addToCart = async (productId, quantity = 1) => {
     try {
-      const token = localStorage.getItem('authToken');
       if (!token) {
-        throw new Error('No token found');
+        alert("Zaloguj się, aby dodać produkty do koszyka.");
+        return;
       }
-      const response = await axios.post('http://localhost:4000/api/cart', {
-        productId,
-        quantity,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}` // Ensure the token is sent
+      const response = await axios.post(
+        "http://localhost:4000/api/cart",
+        { productId, quantity },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
-      console.log('Product added to cart:', response.data);
+      );
+      console.log("Produkt dodany do koszyka:", response.data);
+      alert("Produkt dodano do koszyka!");
     } catch (error) {
-      console.error('Error adding product to cart:', error.response?.data || error.message);
+      console.error("Błąd przy dodawaniu produktu do koszyka:", error.response?.data || error.message);
+      alert("Nie udało się dodać produktu do koszyka.");
     }
   };
 
-  // Produkty polecane (grupowanie według kategorii)
+  // Grupowanie produktów polecanych według kategorii
   const recommendedProducts = products.reduce((acc, product) => {
     if (!acc.find((item) => item.category === product.category)) {
       acc.push(product);
@@ -84,26 +87,27 @@ const Home = () => {
   // Filtrowanie produktów na podstawie wyszukiwania i kategorii
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ['All', ...new Set(products.map((product) => product.category))];
+  const categories = ["All", ...new Set(products.map((product) => product.category))];
 
+  // Obsługa ładowania i błędów
   if (loading) {
-    return <div>Loading products...</div>;
+    return <div>Ładowanie produktów...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Błąd: {error}</div>;
   }
 
+  // Renderowanie strony głównej
   return (
     <div className="home-page">
       <div className="main-content">
-        <div className='search-container'>
+        <div className="search-container">
           <h1 className="home-title">Welcome to the EleShop</h1>
-
           <div className="search-bar">
             <input
               type="text"
@@ -141,7 +145,11 @@ const Home = () => {
         <div className="product-grid">
           {filteredProducts.map((product) => (
             <div key={product.id} className="product-card">
-              <img src={product.image} alt={product.name} className="product-image" />
+              <img
+                src={product.image || "https://via.placeholder.com/150"}
+                alt={product.name}
+                className="product-image"
+              />
               <p className="product-name">{product.name}</p>
               <p className="product-price">{product.price} PLN</p>
               <div className="product-actions">
@@ -164,7 +172,11 @@ const Home = () => {
         <h2>Recommended</h2>
         {recommendedProducts.map((product) => (
           <div key={product.id} className="recommended-card">
-            <img src={product.image} alt={product.name} className="recommended-image" />
+            <img
+              src={product.image || "https://via.placeholder.com/150"}
+              alt={product.name}
+              className="recommended-image"
+            />
             <div className="recommended-info">
               <p className="recommended-name">{product.name}</p>
               <p className="recommended-category">{product.category}</p>
