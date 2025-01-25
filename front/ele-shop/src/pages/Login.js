@@ -8,35 +8,66 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const saveTokenAndUser = (token, user) => {
+    // Save token to localStorage (or any secure storage)
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('userId', user.uid);
+    localStorage.setItem('userEmail', user.email);
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Attempting to log in with email:', email, 'and password:', password);
-
+  
     try {
       const response = await axios.post('http://localhost:4000/api/auth/login', { email, password });
       console.log('Login successful. Response data:', response.data);
-
-      // Simulate saving a token or user data for further use (e.g., in localStorage)
-      console.log('Navigating to /account');
+  
+      // Extract token and user from the nested structure in response data
+      const { user } = response.data;
+      const token = user?.token; // Get the token from the user object
+  
+      if (!token) {
+        throw new Error('Token is missing in the response');
+      }
+  
+      saveTokenAndUser(token, user);
+  
+      // Navigate to user account
       navigate('/account');
     } catch (error) {
       console.error('Login failed. Error details:', error.response?.data || error.message);
     }
   };
+  
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    console.log('Attempting to register with email:', email, 'and password:', password);
 
     try {
       const response = await axios.post('http://localhost:4000/api/auth/register', { email, password });
       console.log('Registration successful. Response data:', response.data);
 
-      // Simulate saving a token or user data for further use (e.g., in localStorage)
-      console.log('Navigating to /account');
+      const { user } = response.data;
+
+      // Optionally fetch token after registration if needed
+      const token = await handleLoginAfterRegister(email, password);
+      saveTokenAndUser(token, user);
+
+      // Navigate to user account
       navigate('/account');
     } catch (error) {
       console.error('Registration failed. Error details:', error.response?.data || error.message);
+    }
+  };
+
+  // Helper function to log in after registration
+  const handleLoginAfterRegister = async (email, password) => {
+    try {
+      const response = await axios.post('http://localhost:4000/api/auth/login', { email, password });
+      return response.data.token; // Return token from login
+    } catch (error) {
+      console.error('Auto-login after registration failed:', error.message);
+      throw error;
     }
   };
 

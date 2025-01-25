@@ -1,6 +1,7 @@
 const express = require('express');
-const { auth } = require('../firebase-config'); // Ensure firebase-config is correct
+const { db, auth } = require('../firebase-config'); // Import db and auth correctly
 const { signInWithEmailAndPassword, createUserWithEmailAndPassword } = require('firebase/auth');
+const { doc, setDoc } = require('firebase-admin/firestore'); // Use correct imports from admin SDK
 const router = express.Router();
 
 // Middleware to validate input
@@ -16,7 +17,18 @@ const validateInput = (req, res, next) => {
 router.post('/register', validateInput, async (req, res) => {
   const { email, password } = req.body;
   try {
+    // Create user in Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(`User registered successfully: ${userCredential.user.email}`);
+
+    // Add user data to Firestore
+    const userRef = db.collection('Users').doc(userCredential.user.uid); // Correct usage of Firestore admin SDK
+    await userRef.set({
+      uid: userCredential.user.uid,
+      email: userCredential.user.email,
+      createdAt: new Date().toISOString(),
+    });
+
     res.status(201).json({
       message: 'User created successfully.',
       user: {
@@ -26,7 +38,6 @@ router.post('/register', validateInput, async (req, res) => {
     });
   } catch (error) {
     console.error(`Error during signup: ${error.code} - ${error.message}`);
-    // Check for specific error
     if (error.code === 'auth/configuration-not-found') {
       return res.status(500).json({
         error: 'Firebase Auth is not properly configured. Please check the Firebase configuration.',
@@ -43,8 +54,13 @@ router.post('/register', validateInput, async (req, res) => {
 router.post('/login', validateInput, async (req, res) => {
   const { email, password } = req.body;
   try {
+    // Logowanie użytkownika w Firebase Auth
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const token = await userCredential.user.getIdToken();
+
+    // Pobranie tokenu z Firebase Auth
+    const token = await userCredential.user.getIdToken(); // Arrow function ensures correct `this` binding
+    console.log(`Generated token for user ${userCredential.user.email}:`, token);
+
     res.status(200).json({
       message: 'User logged in successfully.',
       user: {
@@ -60,5 +76,6 @@ router.post('/login', validateInput, async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;

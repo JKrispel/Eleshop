@@ -8,16 +8,22 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const userId = "TestUser"; // Zastąp tym faktycznym ID użytkownika
+  // Pobierz userId i token z localStorage
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("authToken");
 
-  // Pobierz produkty z koszyka po załadowaniu komponentu
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/cart/${userId}`
+          `http://localhost:4000/api/cart/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-        console.log('Cart API response:', response.data);
+        console.log("Cart API response:", response.data);
         setProducts(response.data);
       } catch (error) {
         console.error("Błąd przy pobieraniu danych koszyka:", error);
@@ -27,28 +33,36 @@ const Cart = () => {
     };
 
     fetchCart();
-  }, []);
+  }, [userId, token]);
 
-  // Aktualizacja ilości produktu
   const updateQuantity = async (id, delta) => {
     try {
       const response = await axios.put(
         `http://localhost:4000/api/cart/${userId}/update`,
-        { productId: id, delta } // Backend aktualizuje ilość
+        { productId: id, delta },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      setProducts(response.data); // Aktualizujemy stan z nowymi danymi
+      setProducts(response.data);
     } catch (error) {
       console.error("Błąd przy aktualizacji ilości produktu:", error);
     }
   };
 
-  // Usuwanie produktu z koszyka
   const removeProduct = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4000/api/cart/${userId}/remove/${id}`
+        `http://localhost:4000/api/cart/${userId}/remove/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      setProducts(response.data); // Aktualizujemy stan po usunięciu
+      setProducts(response.data);
     } catch (error) {
       console.error("Błąd przy usuwaniu produktu:", error);
     }
@@ -94,29 +108,6 @@ const Cart = () => {
             </button>
           </div>
         ))}
-      </div>
-      <div className="cart-form">
-        <h2>Szczegóły dostawy</h2>
-        <form>
-          <input type="text" placeholder="Imię i nazwisko" className="form-input" required />
-          <input type="email" placeholder="Adres e-mail" className="form-input" required />
-          <input type="text" placeholder="Numer telefonu" className="form-input" required />
-          <input type="text" placeholder="Adres" className="form-input" required />
-          <input type="text" placeholder="Miasto" className="form-input" required />
-          <input type="text" placeholder="Kod pocztowy" className="form-input" required />
-          <div className="form-buttons">
-            <button type="submit" className="cart-button">
-              Złóż zamówienie
-            </button>
-            <button
-              type="button"
-              className="return-button"
-              onClick={() => navigate("/")}
-            >
-              Powrót do strony głównej
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   );

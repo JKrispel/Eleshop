@@ -1,6 +1,6 @@
 const express = require('express');
 const { db } = require('../firebase-config');
-const { collection, getDocs, addDoc, query, where } = require('firebase/firestore');
+const { getFirestore, collection, getDocs, addDoc, query, where } = require('firebase-admin/firestore');
 const { auth } = require('firebase-admin');
 const router = express.Router();
 
@@ -15,6 +15,7 @@ const verifyToken = async (req, res, next) => {
     req.user = decodedToken;
     next();
   } catch (error) {
+    console.error('Error verifying token:', error); // Log the error
     res.status(401).json({ error: 'Unauthorized' });
   }
 };
@@ -37,6 +38,7 @@ router.get('/', verifyToken, async (req, res) => {
 
     res.status(200).json(cartItems);
   } catch (error) {
+    console.error('Error fetching cart items:', error); // Log the error
     res.status(500).json({ error: 'Failed to fetch cart items' });
   }
 });
@@ -53,6 +55,7 @@ router.post('/', verifyToken, async (req, res) => {
     });
     res.status(201).json({ message: 'Item added to cart' });
   } catch (error) {
+    console.error('Error adding item to cart:', error); // Log the error
     res.status(500).json({ error: 'Failed to add item to cart' });
   }
 });
