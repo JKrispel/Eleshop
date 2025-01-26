@@ -159,7 +159,7 @@ const Home = () => {
                   <button className="product-button">View Details</button>
                 </Link>
                 <button
-                  className="add-to-cart-button"
+                  className="product-button"
                   onClick={() => addToCart(product.id)}
                 >
                   Add to Cart

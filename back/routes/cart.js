@@ -23,21 +23,23 @@ const verifyToken = async (req, res, next) => {
 
 
 // Get all items in the user's cart
-router.get('/:userId', verifyToken, async (req, res) => {
-  const { userId } = req.params;
+// Get all items in the user's cart
+router.get('/', verifyToken, async (req, res) => {
+  const userId = req.user.id; // Extract userId from the verified token
   try {
     const cartRef = db.collection('Users').doc(userId).collection('Cart');
     const cartSnapshot = await cartRef.get();
+
     if (cartSnapshot.empty) {
-      return res.status(404).json({ error: 'Koszyk użytkownika jest pusty' });
+      return res.status(200).json([]); // Return an empty array if the cart is empty
     }
 
-    const items = [];
-    cartSnapshot.forEach((doc) => {
-      items.push({ id: doc.id, ...doc.data() });
-    });
+    const items = cartSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-    res.status(200).json(items);
+    res.status(200).json(items); // Return cart items
   } catch (error) {
     console.error('Error fetching cart items:', error);
     res.status(500).json({
@@ -46,6 +48,7 @@ router.get('/:userId', verifyToken, async (req, res) => {
     });
   }
 });
+
 
 router.post('/', verifyToken, async (req, res) => {
   const { productId, quantity } = req.body;
@@ -81,14 +84,15 @@ router.post('/', verifyToken, async (req, res) => {
 
 
 // Update quantity of a product in the cart
-router.put('/:userId/update', verifyToken, async (req, res) => {
-  const { userId } = req.params;
+router.put('/update', verifyToken, async (req, res) => {
   const { productId, delta } = req.body;
+
   if (!productId || typeof delta !== 'number') {
     return res.status(400).json({ error: 'Invalid input: Product ID and delta are required' });
   }
 
   try {
+    const userId = req.user.id; // Extract userId from the token
     const itemRef = db.collection('Users').doc(userId).collection('Cart').doc(productId);
     const itemSnapshot = await itemRef.get();
 
@@ -104,7 +108,15 @@ router.put('/:userId/update', verifyToken, async (req, res) => {
     }
 
     await itemRef.update({ quantity: newQuantity });
-    res.status(200).json({ message: 'Ilość produktu została zaktualizowana' });
+
+    // Fetch updated cart items
+    const cartSnapshot = await db.collection('Users').doc(userId).collection('Cart').get();
+    const updatedCart = cartSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.status(200).json(updatedCart); // Return the updated cart
   } catch (error) {
     console.error('Error updating product quantity:', error);
     res.status(500).json({
@@ -114,9 +126,11 @@ router.put('/:userId/update', verifyToken, async (req, res) => {
   }
 });
 
+
 // Delete a product from the cart
-router.delete('/:userId/:productId', verifyToken, async (req, res) => {
-  const { userId, productId } = req.params;
+router.delete('/:productId', verifyToken, async (req, res) => {
+  const { productId } = req.params;
+  const userId = req.user.id; // Extract userId from the verified token
 
   try {
     const itemRef = db.collection('Users').doc(userId).collection('Cart').doc(productId);
