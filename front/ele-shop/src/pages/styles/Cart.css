@@ -158,3 +158,46 @@
 .return-button:hover {
   background-color: #5a6268;
 }
+
+.checkout-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.checkout-button:hover {
+  background-color: #0056b3;
+}
+
+.total-cost {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-bottom: 1rem;
+}
+
+.empty-cart {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  padding: 2rem;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  margin: 2rem auto;
+  width: 50%;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+}

@@ -147,11 +147,7 @@ const Home = () => {
         <div className="product-grid">
           {filteredProducts.map((product) => (
             <div key={product.id} className="product-card">
-              <img
-                src={product.image || "https://via.placeholder.com/150"}
-                alt={product.name}
-                className="product-image"
-              />
+              
               <p className="product-name">{product.name}</p>
               <p className="product-price">{product.price} PLN</p>
               <div className="product-actions">
@@ -174,17 +170,18 @@ const Home = () => {
         <h2>Recommended</h2>
         {recommendedProducts.map((product) => (
           <div key={product.id} className="recommended-card">
-            <img
-              src={product.image || "https://via.placeholder.com/150"}
-              alt={product.name}
-              className="recommended-image"
-            />
             <div className="recommended-info">
-              <p className="recommended-name">{product.name}</p>
+              <p className="recommended-name centered-bold">{product.name}</p>
               <p className="recommended-category">{product.category}</p>
               <Link to={`/product/${product.id}`}>
                 <button className="recommended-button">View Details</button>
               </Link>
+              <button
+                className="recommended-button"
+                onClick={() => addToCart(product.id)}
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         ))}

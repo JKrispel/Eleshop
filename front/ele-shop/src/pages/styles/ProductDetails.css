@@ -1,23 +1,128 @@
 .product-details-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .product-details-image {
-    width: 300px;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .product-details-title {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .product-details-description {
-    font-size: 1.2rem;
-    color: #555;
-  }
-  
+  width: 80%;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+}
+
+.product-details-image {
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.product-details-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.product-details-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.product-details-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.product-details-category {
+  font-size: 1rem;
+  color: #777;
+}
+
+.product-details-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+.product-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-button:hover {
+  background-color: #0056b3;
+}
+
+.expandable-description {
+  margin-top: 20px;
+}
+
+.expand-label {
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.expand-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.expand-button:hover {
+  background-color: #0056b3;
+}
+
+.additional-description {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #555;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.additional-description ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.additional-description p {
+  margin-top: 10px;
+}
+
+.description-image {
+  width: 60%; /* Adjust width to be half the content */
+  height: auto;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-left: 10%;
+}
+
+.description-box {
+  padding: 20px;
+  margin: 20px 0;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.description-box strong {
+  color: #007bff;
+}

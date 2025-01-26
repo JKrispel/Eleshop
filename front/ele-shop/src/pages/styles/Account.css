@@ -1,15 +1,58 @@
 .account-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .account-title {
-    font-size: 2rem;
-    color: #333;
-  }
-  
-  .account-message {
-    font-size: 1rem;
-    color: #555;
-  }
-  
+  width: 80%;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+}
+
+.account-title {
+  font-size: 2rem;
+  color: #333;
+}
+
+.account-message {
+  font-size: 1rem;
+  color: #555;
+}
+
+.login-message {
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-bottom: 2rem;
+}
+
+.login-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+.user-info {
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.user-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-top: 1rem;
+}

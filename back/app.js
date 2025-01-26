@@ -14,15 +14,7 @@ require('dotenv').config(); // Load environment variables
   const { db } = require('./firebase-config');
 
   const admin = require('firebase-admin');
-  const serviceAccount = require('./serviceAccountKey.json'); // Replace with your key file
 
-  // Initialize Firebase Admin SDK
-  if (!admin.apps.length) {
-      admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
-          databaseURL: process.env.FIREBASE_DATABASE_URL,
-      });
-  }
 
   const app = express();
   app.use(express.json());

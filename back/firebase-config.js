@@ -4,7 +4,7 @@ const { initializeApp } = require('firebase/app');
 const { getAuth } = require('firebase/auth'); // Import getAuth
 const admin = require('firebase-admin'); // Import Firebase Admin SDK
 const { getFirestore } = require('firebase-admin/firestore');
-const serviceAccount = require('./serviceAccountKey.json'); // Replace with your key file
+const serviceAccount = require('./serviceAccountKey.json'); // Ensure the path is correct
 
 // Firebase configuration
 const firebaseConfig = {
@@ -29,7 +29,7 @@ if (!admin.apps.length) {
   });
 }
 
-const db = getFirestore(admin.app()); // Ensure Firestore is initialized with admin app
+const db = admin.firestore(); // Ensure Firestore is initialized with admin app
 
 // Add logging
 console.log('Firebase Configuration:', firebaseConfig); // Log the configuration

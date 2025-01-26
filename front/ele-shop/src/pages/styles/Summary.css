@@ -1,0 +1,186 @@
+.summary-container {
+  width: 80%;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  label{
+    margin: 10px;
+  
+}
+}
+.summary-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 1.5rem;
+}
+
+.summary-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.form-group select {
+  padding: 12px 16px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #ffffff;
+  p{
+    margin-top: 100px;
+  }
+}
+
+.form-group div {
+  display: flex;
+  flex-direction: row; 
+  gap: 2cm; /* Add more spacing between options */
+  margin-bottom: 1rem; /* Add more margin */
+  
+}
+
+.form-group input[type="radio"] {
+  display: none; /* Hide the default radio button */
+}
+
+.form-group input[type="radio"] + label {
+  position: relative;
+  padding: 16px 24px; /* Increase padding */
+  border: 1px solid #cccccc;
+  border-radius: 12px; /* Add rounded corners */
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+.form-group input[type="radio"] + label::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: transparent;
+  transform: translateY(-50%);
+}
+
+.form-group input[type="radio"]:checked + label::before {
+  background-color: #007bff; /* Add a circle inside the label when selected */
+}
+
+.form-group input[type="radio"]:checked + label {
+  border: 2px solid #007bff; /* Add a thicker border when selected */
+  background-color: #007bff;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Add a glow effect */
+}
+
+.form-group label.selected {
+  border: 2px solid #007bff; /* Add a thicker border when selected */
+  background-color: #007bff;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Add a glow effect */
+  padding: 16px 24px; /* Increase padding */
+  border-radius: 25px; /* Add rounded corners */
+  margin: -10px;
+}
+.section-frame {
+    border: 2px solid #007bff; /* Blue border for the frame */
+    border-radius: 12px; /* Rounded corners */
+    padding: 1.5rem; /* Space inside the frame */
+    margin-bottom: 2rem; /* Space between sections */
+    background-color: #f9f9f9; /* Light background for the frame */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .section-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff; /* Blue text for section title */
+    margin-bottom: 1rem; /* Space below the title */
+  }
+  
+.form-group input[type="text"] {
+  padding: 12px 16px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #ffffff;
+}
+
+.bank-link {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bank-link:hover {
+  background-color: #0056b3;
+}
+
+.submit-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.blik-code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.blik-code-inputs input {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+}
+
+.total-cost-summary {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+

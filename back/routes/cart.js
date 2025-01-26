@@ -32,13 +32,11 @@ router.get('/', verifyToken, async (req, res) => {
       return res.status(200).json([]); // Return an empty array if the cart is empty
     }
 
-    // Fetch product details for each item in the cart
     const items = await Promise.all(
       cartSnapshot.docs.map(async (doc) => {
         const cartItem = doc.data();
         const productId = doc.id;
 
-        // Fetch product details from the Products collection
         const productSnapshot = await db.collection('Products').doc(productId).get();
         const productData = productSnapshot.exists ? productSnapshot.data() : {};
 
@@ -96,7 +94,6 @@ router.post('/', verifyToken, async (req, res) => {
 
 
 
-// Update quantity of a product in the cart
 router.put('/update', verifyToken, async (req, res) => {
   const { productId, delta } = req.body;
 
@@ -105,9 +102,8 @@ router.put('/update', verifyToken, async (req, res) => {
   }
 
   try {
-    const userId = req.user.id; // Extract userId from the token
+    const userId = req.user.id; 
 
-    // Update the quantity in the Cart collection
     const itemRef = db.collection('Users').doc(userId).collection('Cart').doc(productId);
     const itemSnapshot = await itemRef.get();
 
@@ -124,11 +120,9 @@ router.put('/update', verifyToken, async (req, res) => {
 
     await itemRef.update({ quantity: newQuantity });
 
-    // Fetch updated cart items
     const cartRef = db.collection('Users').doc(userId).collection('Cart');
     const cartSnapshot = await cartRef.get();
 
-    // Fetch product details and combine with cart data
     const items = await Promise.all(
       cartSnapshot.docs.map(async (doc) => {
         const cartItem = doc.data();
@@ -145,7 +139,7 @@ router.put('/update', verifyToken, async (req, res) => {
       })
     );
 
-    res.status(200).json(items); // Return updated cart items
+    res.status(200).json(items); 
   } catch (error) {
     console.error('Error updating product quantity:', error);
     res.status(500).json({
@@ -157,10 +151,9 @@ router.put('/update', verifyToken, async (req, res) => {
 
 
 
-// Delete a product from the cart
 router.delete('/:productId', verifyToken, async (req, res) => {
   const { productId } = req.params;
-  const userId = req.user.id; // Extract userId from the verified token
+  const userId = req.user.id; 
 
   try {
     const itemRef = db.collection('Users').doc(userId).collection('Cart').doc(productId);

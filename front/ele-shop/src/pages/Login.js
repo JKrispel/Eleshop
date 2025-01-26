@@ -10,6 +10,7 @@ const Login = () => {
 
   const saveTokenAndUser = (token, user) => {
     // Save token to localStorage (or any secure storage)
+    console.log(user.createdAt);
     localStorage.setItem('authToken', token);
     localStorage.setItem('userId', user.uid);
     localStorage.setItem('userEmail', user.email);

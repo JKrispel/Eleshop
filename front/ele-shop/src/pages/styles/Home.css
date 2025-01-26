@@ -47,6 +47,9 @@
   padding: 10px;
   margin-bottom: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  p {
+    font-weight: bold !important;
+  }
 }
 
 .recommended-info {
@@ -54,11 +57,13 @@
   flex-direction: column;
   gap: 5px;
   flex-grow: 1;
+  
 }
 
 .recommended-name {
   font-size: 1.1rem;
   font-weight: bold;
+  margin-bottom: -5px;
 }
 
 .recommended-button {
@@ -112,6 +117,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin: -1px 4px;
 }
 
 .product-button:hover {
@@ -236,4 +242,9 @@
 
 .search-container .home-description {
   margin-bottom: 20px;
+}
+
+.centered-bold {
+  text-align: center;
+  font-weight: bold;
 }
