@@ -21,8 +21,11 @@ router.post('/register', validateInput, async (req, res) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     console.log(`User registered successfully: ${userCredential.user.email}`);
 
+    // Generate token for the newly created user
+    const token = await userCredential.user.getIdToken();
+
     // Add user data to Firestore
-    const userRef = db.collection('Users').doc(userCredential.user.uid); // Correct usage of Firestore admin SDK
+    const userRef = db.collection('Users').doc(userCredential.user.uid);
     await userRef.set({
       uid: userCredential.user.uid,
       email: userCredential.user.email,
@@ -34,21 +37,17 @@ router.post('/register', validateInput, async (req, res) => {
       user: {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
+        token, // Include token in the response
       },
     });
   } catch (error) {
     console.error(`Error during signup: ${error.code} - ${error.message}`);
-    if (error.code === 'auth/configuration-not-found') {
-      return res.status(500).json({
-        error: 'Firebase Auth is not properly configured. Please check the Firebase configuration.',
-        details: error.message,
-      });
-    }
     res.status(400).json({
       error: error.message || 'Failed to create user. Please check your input and try again.',
     });
   }
 });
+
 
 // Login route
 router.post('/login', validateInput, async (req, res) => {

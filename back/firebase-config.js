@@ -4,7 +4,7 @@ const { initializeApp } = require('firebase/app');
 const { getAuth } = require('firebase/auth'); // Import getAuth
 const admin = require('firebase-admin'); // Import Firebase Admin SDK
 const { getFirestore } = require('firebase-admin/firestore');
-const serviceAccount = require('./eleshop-94c3b-firebase-adminsdk-xpme7-eb87c79994.json'); // Replace with your key file
+const serviceAccount = require('./serviceAccountKey.json'); // Replace with your key file
 
 // Firebase configuration
 const firebaseConfig = {

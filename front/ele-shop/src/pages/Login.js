@@ -42,23 +42,27 @@ const Login = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await axios.post('http://localhost:4000/api/auth/register', { email, password });
       console.log('Registration successful. Response data:', response.data);
-
+  
       const { user } = response.data;
-
-      // Optionally fetch token after registration if needed
-      const token = await handleLoginAfterRegister(email, password);
+      const token = user.token; // Get the token from the response
+  
+      if (!token) {
+        throw new Error('Token is missing in the response');
+      }
+  
       saveTokenAndUser(token, user);
-
+  
       // Navigate to user account
       navigate('/account');
     } catch (error) {
       console.error('Registration failed. Error details:', error.response?.data || error.message);
     }
   };
+  
 
   // Helper function to log in after registration
   const handleLoginAfterRegister = async (email, password) => {

@@ -4,21 +4,23 @@ const { collection, doc, getDoc, setDoc, updateDoc, deleteDoc, getDocs, query, w
 const { auth } = require('firebase-admin'); // Firebase Admin Auth
 const router = express.Router();
 
-// Middleware to verify Firebase ID token
 const verifyToken = async (req, res, next) => {
   const idToken = req.headers.authorization?.split('Bearer ')[1];
   if (!idToken) {
     return res.status(401).json({ error: 'Unauthorized: Missing token' });
   }
+
   try {
     const decodedToken = await auth().verifyIdToken(idToken);
-    req.user = decodedToken; // Attach decoded token to the request
+    req.user = { id: decodedToken.uid }; // Attach user ID (UID) to req.user
     next();
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(401).json({ error: 'Unauthorized: Invalid token' });
   }
 };
+
+
 
 // Get all items in the user's cart
 router.get('/:userId', verifyToken, async (req, res) => {
@@ -45,15 +47,19 @@ router.get('/:userId', verifyToken, async (req, res) => {
   }
 });
 
-// Add a product to the cart
-router.post('/:userId', verifyToken, async (req, res) => {
-  const { userId } = req.params;
+router.post('/', verifyToken, async (req, res) => {
   const { productId, quantity } = req.body;
+
   if (!productId || typeof quantity !== 'number') {
     return res.status(400).json({ error: 'Invalid input: Product ID and quantity are required' });
   }
 
   try {
+    const userId = req.user.id; // Extract userId from token
+    if (!userId) {
+      return res.status(400).json({ error: 'Invalid token: User ID is missing' });
+    }
+
     const itemRef = db.collection('Users').doc(userId).collection('Cart').doc(productId);
     const itemSnapshot = await itemRef.get();
 
@@ -71,6 +77,8 @@ router.post('/:userId', verifyToken, async (req, res) => {
     res.status(500).json({ error: 'Nie udało się dodać produktu do koszyka', details: error.message });
   }
 });
+
+
 
 // Update quantity of a product in the cart
 router.put('/:userId/update', verifyToken, async (req, res) => {

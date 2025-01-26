@@ -52,19 +52,19 @@ const Home = () => {
     fetchCart();
   }, [token]);
 
-  // Dodaj produkt do koszyka
   const addToCart = async (productId, quantity = 1) => {
     try {
       if (!token) {
         alert("Zaloguj się, aby dodać produkty do koszyka.");
         return;
       }
+  
       const response = await axios.post(
-        "http://localhost:4000/api/cart",
+        "http://localhost:4000/api/cart", // No userId in the path
         { productId, quantity },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Token for authentication
           },
         }
       );
@@ -75,6 +75,8 @@ const Home = () => {
       alert("Nie udało się dodać produktu do koszyka.");
     }
   };
+  
+
 
   // Grupowanie produktów polecanych według kategorii
   const recommendedProducts = products.reduce((acc, product) => {
