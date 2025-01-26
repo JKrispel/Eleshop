@@ -21,8 +21,6 @@ const verifyToken = async (req, res, next) => {
 };
 
 
-
-// Get all items in the user's cart
 // Get all items in the user's cart
 router.get('/', verifyToken, async (req, res) => {
   const userId = req.user.id; // Extract userId from the verified token
@@ -34,12 +32,27 @@ router.get('/', verifyToken, async (req, res) => {
       return res.status(200).json([]); // Return an empty array if the cart is empty
     }
 
-    const items = cartSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    // Fetch product details for each item in the cart
+    const items = await Promise.all(
+      cartSnapshot.docs.map(async (doc) => {
+        const cartItem = doc.data();
+        const productId = doc.id;
 
-    res.status(200).json(items); // Return cart items
+        // Fetch product details from the Products collection
+        const productSnapshot = await db.collection('Products').doc(productId).get();
+        const productData = productSnapshot.exists ? productSnapshot.data() : {};
+
+        return {
+          id: productId,
+          quantity: cartItem.quantity, // From Cart collection
+          name: productData.name || 'Unknown Product', // From Products collection
+          price: productData.price || 0, // From Products collection
+          imageUrl: productData.imageUrl || 'https://via.placeholder.com/150', // From Products collection
+        };
+      })
+    );
+
+    res.status(200).json(items); // Return cart items with additional product details
   } catch (error) {
     console.error('Error fetching cart items:', error);
     res.status(500).json({
@@ -93,6 +106,8 @@ router.put('/update', verifyToken, async (req, res) => {
 
   try {
     const userId = req.user.id; // Extract userId from the token
+
+    // Update the quantity in the Cart collection
     const itemRef = db.collection('Users').doc(userId).collection('Cart').doc(productId);
     const itemSnapshot = await itemRef.get();
 
@@ -110,13 +125,27 @@ router.put('/update', verifyToken, async (req, res) => {
     await itemRef.update({ quantity: newQuantity });
 
     // Fetch updated cart items
-    const cartSnapshot = await db.collection('Users').doc(userId).collection('Cart').get();
-    const updatedCart = cartSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const cartRef = db.collection('Users').doc(userId).collection('Cart');
+    const cartSnapshot = await cartRef.get();
 
-    res.status(200).json(updatedCart); // Return the updated cart
+    // Fetch product details and combine with cart data
+    const items = await Promise.all(
+      cartSnapshot.docs.map(async (doc) => {
+        const cartItem = doc.data();
+        const productSnapshot = await db.collection('Products').doc(doc.id).get();
+        const productData = productSnapshot.exists ? productSnapshot.data() : {};
+
+        return {
+          id: doc.id,
+          quantity: cartItem.quantity,
+          name: productData.name || 'Unknown Product',
+          price: productData.price || 0,
+          imageUrl: productData.imageUrl || 'https://via.placeholder.com/150',
+        };
+      })
+    );
+
+    res.status(200).json(items); // Return updated cart items
   } catch (error) {
     console.error('Error updating product quantity:', error);
     res.status(500).json({
@@ -125,6 +154,7 @@ router.put('/update', verifyToken, async (req, res) => {
     });
   }
 });
+
 
 
 // Delete a product from the cart
