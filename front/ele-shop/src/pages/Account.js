@@ -15,7 +15,11 @@ const Account = () => {
     }
   }, []);
 
- 
+  const handleLogout = () => {
+    localStorage.clear();
+    setUser(null);
+  };
+
   return (
     <div className="account-container">
       {!user ? (
@@ -30,6 +34,7 @@ const Account = () => {
           <h2>Welcome, {user.email}</h2>
           <img src="https://i.pinimg.com/736x/3c/f6/ef/3cf6ef8b32bdb41c8b350f15ee5ac4a5.jpg" alt="User" className="user-image" />
           <p>User ID: {user.uid}</p>
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
       )}
     </div>
