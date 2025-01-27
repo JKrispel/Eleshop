@@ -1,0 +1,466 @@
+{
+  "Orders": [
+    {
+      "id": "ExampleOrder",
+      "orderDate": {
+        "_seconds": 1732813002,
+        "_nanoseconds": 531000000
+      },
+      "totalOrderValue": 0,
+      "orderStatus": "",
+      "userId": {
+        "_firestore": {
+          "projectId": "eleshop-94c3b"
+        },
+        "_path": {
+          "segments": [
+            "Users",
+            "ExampleUser"
+          ]
+        },
+        "_converter": {}
+      }
+    }
+  ],
+  "Products": [
+    {
+      "id": "0ze3v9bcvJhFV6wB4gjB",
+      "description": "Nowoczesny laptop z dużym ekranem.",
+      "category": "Elektronika",
+      "name": "Laptop Dell",
+      "price": 6000,
+      "imageUrl": "https://i.imgur.com/zROaZYc.jpeg"
+    },
+    {
+      "id": "1nzDda3MQcbCEGrKxR1f",
+      "description": "Bezprzewodowy głośnik z wodoodpornością IP67.",
+      "category": "Audio",
+      "name": "Głośnik JBL Flip 6",
+      "price": 600,
+      "imageUrl": "https://i.imgur.com/audio123abc.jpeg"
+    },
+    {
+      "id": "2COpXS7sVyKJseKXED0w",
+      "description": "Składany smartfon z ekranem AMOLED.",
+      "category": "Telefony",
+      "name": "Smartphone Samsung Galaxy Z Flip 4",
+      "price": 5200,
+      "imageUrl": "https://i.imgur.com/xyz12ghi.jpeg"
+    },
+    {
+      "id": "3wa6GiovCUid1KX57Kvf",
+      "description": "Wydajny telefon gamingowy z chłodzeniem.",
+      "category": "Telefony",
+      "name": "Smartphone ASUS ROG Phone 6",
+      "price": 4200,
+      "imageUrl": "https://i.imgur.com/xyz4jkl.jpeg"
+    },
+    {
+      "id": "4VLHbkd53orL6J0BE5o1",
+      "description": "Smartfon 5G z ultraszybkim ładowaniem.",
+      "category": "Telefony",
+      "name": "Smartphone OnePlus Nord 2",
+      "price": 1900,
+      "imageUrl": "https://i.imgur.com/xyz7stu.jpeg"
+    },
+    {
+      "id": "4X0xD4gJl1vm8WCoV0OJ",
+      "description": "Konsola nowej generacji z ogromną biblioteką gier.",
+      "category": "Elektronika",
+      "name": "Konsola PlayStation 5",
+      "price": 3200,
+      "imageUrl": "https://i.imgur.com/console123ghi.jpeg"
+    },
+    {
+      "id": "8KXDK40H1gxKa6RTf6iX",
+      "description": "Stabilizator obrazu do profesjonalnych nagrań.",
+      "category": "Fotografia",
+      "name": "Gimbal DJI Ronin-SC",
+      "price": 1200,
+      "imageUrl": "https://i.imgur.com/photo123ghi.jpeg"
+    },
+    {
+      "id": "FjV1u4dl93ErB8z3KOzk",
+      "description": "Flagowy smartfon z potrójnym aparatem.",
+      "category": "Telefony",
+      "name": "Smartphone Samsung Galaxy S22",
+      "price": 3800,
+      "imageUrl": "https://i.imgur.com/xyz3ghi.jpeg"
+    },
+    {
+      "id": "Fy18hovgaxkicGdtr3oH",
+      "description": "Nowoczesny telewizor 4K z technologią HDR.",
+      "category": "Elektronika",
+      "name": "Telewizor Sony Bravia",
+      "price": 4500,
+      "imageUrl": "https://i.imgur.com/tv123abc.jpeg"
+    },
+    {
+      "id": "G303f3k4anTc1Iv6qfuH",
+      "description": "Smartfon z najnowszym Androidem i ekranem HDR10+.",
+      "category": "Telefony",
+      "name": "Smartphone Google Pixel 7",
+      "price": 3500,
+      "imageUrl": "https://i.imgur.com/xyz19abc.jpeg"
+    },
+    {
+      "id": "HEDmPEGfTvvGGPtJUuvp",
+      "description": "Smartfon z wyświetlaczem bez ramek.",
+      "category": "Telefony",
+      "name": "Smartphone ZTE Axon 40 Ultra",
+      "price": 4000,
+      "imageUrl": "https://i.imgur.com/xyz20def.jpeg"
+    },
+    {
+      "id": "I7yCajrKDNGAgV3ShOnA",
+      "description": "Stylowy smartfon z możliwością nagrywania wideo w 8K.",
+      "category": "Telefony",
+      "name": "Smartphone Oppo Find X5",
+      "price": 3100,
+      "imageUrl": "https://i.imgur.com/xyz11def.jpeg"
+    },
+    {
+      "id": "K9zZcu7pg88vwz3OAhW9",
+      "description": "Smartfon z dużą baterią i ekranem AMOLED.",
+      "category": "Telefony",
+      "name": "Smartphone Xiaomi Redmi Note 12",
+      "price": 1400,
+      "imageUrl": "https://i.imgur.com/xyz2def.jpeg"
+    },
+    {
+      "id": "MxL0kOtNTp4uwVkmwIVc",
+      "description": "Słuchawki douszne z aktywną redukcją szumów.",
+      "category": "Audio",
+      "name": "Słuchawki Sony WF-1000XM4",
+      "price": 1000,
+      "imageUrl": "https://i.imgur.com/audio123def.jpeg"
+    },
+    {
+      "id": "NSMoUcEfxLwaP5xxsJmJ",
+      "description": "Słuchawki z aktywną redukcją hałasu.",
+      "category": "Audio",
+      "name": "Słuchawki Bose",
+      "price": 1200,
+      "imageUrl": "https://i.imgur.com/5gOXJww.jpeg"
+    },
+    {
+      "id": "SI7C6hB7lPKV4UgnjueA",
+      "description": "Kompaktowy smartfon z wysoką rozdzielczością aparatu.",
+      "category": "Telefony",
+      "name": "Smartphone Sony Xperia 5 III",
+      "price": 4500,
+      "imageUrl": "https://i.imgur.com/xyz8vwx.jpeg"
+    },
+    {
+      "id": "UOVYMik0y3OM8AtZmJck",
+      "description": "Inteligentny termostat sterowany aplikacją.",
+      "category": "Smart Home",
+      "name": "Termostat Google Nest",
+      "price": 1000,
+      "imageUrl": "https://i.imgur.com/smart123abc.jpeg"
+    },
+    {
+      "id": "UUFMMLfvWscS5C4CbtOh",
+      "description": "Komfortowy fotel gamingowy z regulacją pozycji.",
+      "category": "Gaming",
+      "name": "Fotel SecretLab Titan",
+      "price": 1800,
+      "imageUrl": "https://i.imgur.com/gaming123abc.jpeg"
+    },
+    {
+      "id": "UXMlosfPDRRTZmJtQNNN",
+      "description": "Kamera sportowa do nagrywania w 4K.",
+      "category": "Fotografia",
+      "name": "Kamera GoPro Hero 11",
+      "price": 2200,
+      "imageUrl": "https://i.imgur.com/photo123def.jpeg"
+    },
+    {
+      "id": "ZgD3UUtvjESoierGMtHw",
+      "description": "Budżetowy smartfon z ekranem HD+.",
+      "category": "Telefony",
+      "name": "Smartphone Nokia G20",
+      "price": 900,
+      "imageUrl": "https://i.imgur.com/xyz6pqr.jpeg"
+    },
+    {
+      "id": "aTNLRLT4eoXKhv3XscrN",
+      "description": "Telefon do selfie z kamerą 32 MP.",
+      "category": "Telefony",
+      "name": "Smartphone Vivo V23",
+      "price": 2200,
+      "imageUrl": "https://i.imgur.com/xyz14mno.jpeg"
+    },
+    {
+      "id": "ceAfRk92Yz2FWEaesPOE",
+      "description": "Smartfon klasy premium z wysoką odpornością na wodę.",
+      "category": "Telefony",
+      "name": "Smartphone Huawei P50 Pro",
+      "price": 4600,
+      "imageUrl": "https://i.imgur.com/xyz13jkl.jpeg"
+    },
+    {
+      "id": "dxlGYtbHP4Z16gAngoUL",
+      "description": "Słuchawki gamingowe z dźwiękiem przestrzennym.",
+      "category": "Gaming",
+      "name": "Słuchawki SteelSeries Arctis 7",
+      "price": 850,
+      "imageUrl": "https://i.imgur.com/gaming123ghi.jpeg"
+    },
+    {
+      "id": "e3STW2PhVY8va9c4GxhE",
+      "description": "Wydajny smartfon z 5G.",
+      "category": "Telefony",
+      "name": "Smartphone Samsung",
+      "price": 2500,
+      "imageUrl": "https://i.imgur.com/0bO6F2h.jpeg"
+    },
+    {
+      "id": "ftxUIVAi1zOxqNgQD6cs",
+      "description": "Inteligentna lodówka z ekranem dotykowym.",
+      "category": "AGD",
+      "name": "Lodówka Samsung Family Hub",
+      "price": 8200,
+      "imageUrl": "https://i.imgur.com/agd123def.jpeg"
+    },
+    {
+      "id": "g4H7Mp7Um4u3OSkIepaB",
+      "description": "Klawiatura mechaniczna RGB dla graczy.",
+      "category": "Gaming",
+      "name": "Klawiatura Razer BlackWidow V3",
+      "price": 700,
+      "imageUrl": "https://i.imgur.com/gaming123def.jpeg"
+    },
+    {
+      "id": "gaFhAYpo7HOv8hlfuW2u",
+      "description": "Kamera monitoringu z detekcją ruchu.",
+      "category": "Smart Home",
+      "name": "Kamera Xiaomi Mi Home Security",
+      "price": 300,
+      "imageUrl": "https://i.imgur.com/smart123def.jpeg"
+    },
+    {
+      "id": "gvTXTfoZzaieegfAsZdl",
+      "description": "Telefon z rysikiem do kreatywnej pracy.",
+      "category": "Telefony",
+      "name": "Smartphone Samsung Galaxy Note 20 Ultra",
+      "price": 4800,
+      "imageUrl": "https://i.imgur.com/xyz9yz1.jpeg"
+    },
+    {
+      "id": "kCDIvJPl0kDEl2H1wa4R",
+      "description": "Lekki smartfon z systemem Android 13.",
+      "category": "Telefony",
+      "name": "Smartphone Realme GT 2 Pro",
+      "price": 2700,
+      "imageUrl": "https://i.imgur.com/xyz15pqr.jpeg"
+    },
+    {
+      "id": "liy2aFqcxnqD3m0I2uI8",
+      "description": "Telefon z ekranem 120Hz i procesorem Snapdragon.",
+      "category": "Telefony",
+      "name": "Smartphone Xiaomi Mi 11T",
+      "price": 2000,
+      "imageUrl": "https://i.imgur.com/xyz17vwx.jpeg"
+    },
+    {
+      "id": "mNnRm5Z3euwz630vQCiI",
+      "description": "Wytrzymały smartfon z dużym ekranem iOS.",
+      "category": "Telefony",
+      "name": "Smartphone Apple iPhone SE 2022",
+      "price": 2600,
+      "imageUrl": "https://i.imgur.com/xyz18yz1.jpeg"
+    },
+    {
+      "id": "nVkMtvtdnLcPaC0AS2kI",
+      "description": "Odkurzacz bezprzewodowy z długim czasem pracy.",
+      "category": "AGD",
+      "name": "Odkurzacz Dyson V15",
+      "price": 2400,
+      "imageUrl": "https://i.imgur.com/agd123abc.jpeg"
+    },
+    {
+      "id": "pxu73n7rmZbGaJ5EBVXm",
+      "description": "Zaawansowany aparat z wymienną optyką.",
+      "category": "Fotografia",
+      "name": "Aparat Sony Alpha 7 IV",
+      "price": 9200,
+      "imageUrl": "https://i.imgur.com/photo123abc.jpeg"
+    },
+    {
+      "id": "q9kZVqcpqLo8DYfFm10q",
+      "description": "Pralka z funkcją pary i dużym bębnem.",
+      "category": "AGD",
+      "name": "Pralka Bosch Serie 8",
+      "price": 2900,
+      "imageUrl": "https://i.imgur.com/agd123ghi.jpeg"
+    },
+    {
+      "id": "rC5fJhv4cQx3q1udeJAe",
+      "description": "Zaawansowany tablet do pracy i rozrywki.",
+      "category": "Elektronika",
+      "name": "Tablet Apple iPad Pro",
+      "price": 3700,
+      "imageUrl": "https://i.imgur.com/tab123def.jpeg"
+    },
+    {
+      "id": "sChD1jzsRCSGAvi3L0S4",
+      "description": "Oświetlenie LED RGB z możliwością zmiany kolorów.",
+      "category": "Smart Home",
+      "name": "Żarówka Philips Hue",
+      "price": 200,
+      "imageUrl": "https://i.imgur.com/smart123ghi.jpeg"
+    },
+    {
+      "id": "vFAoimgcegyYEJDe5Naq",
+      "description": "Zaawansowany soundbar z technologią Dolby Atmos.",
+      "category": "Audio",
+      "name": "Soundbar Samsung HW-Q950A",
+      "price": 2500,
+      "imageUrl": "https://i.imgur.com/audio123ghi.jpeg"
+    },
+    {
+      "id": "y2e0JMobryMT7FtyVYow",
+      "description": "Przystępny cenowo telefon z wytrzymałą baterią.",
+      "category": "Telefony",
+      "name": "Smartphone Motorola Moto G Power",
+      "price": 1000,
+      "imageUrl": "https://i.imgur.com/xyz10abc.jpeg"
+    },
+    {
+      "id": "yze7NnPljaqFAXRGZFO6",
+      "description": "Nowoczesny smartfon z 6.5-calowym ekranem OLED.",
+      "category": "Telefony",
+      "name": "Smartphone Apple iPhone 14",
+      "price": 5200,
+      "imageUrl": "https://i.imgur.com/xyz1abc.jpeg"
+    },
+    {
+      "id": "zU7qugl38hhnGQo4leZs",
+      "description": "Telefon o wytrzymałej konstrukcji dla wymagających użytkowników.",
+      "category": "Telefony",
+      "name": "Smartphone CAT S62 Pro",
+      "price": 3000,
+      "imageUrl": "https://i.imgur.com/xyz5mno.jpeg"
+    },
+    {
+      "id": "zbGl55FCW05f6sNtQ5k0",
+      "description": "Smartfon z baterią 5000mAh i ładowaniem 65W.",
+      "category": "Telefony",
+      "name": "Smartphone Poco F4",
+      "price": 1900,
+      "imageUrl": "https://i.imgur.com/xyz16stu.jpeg"
+    }
+  ],
+  "Users": [
+    {
+      "id": "0sdvrR0JQDffHltWlVPU2HGiDV12",
+      "uid": "0sdvrR0JQDffHltWlVPU2HGiDV12",
+      "email": "xcscaca@gnmd.com",
+      "createdAt": "2025-01-25T16:20:54.867Z"
+    },
+    {
+      "id": "6k2qqoaPBBmomOfK0sLO",
+      "address": "",
+      "emial": "",
+      "name ": "",
+      "haslo": ""
+    },
+    {
+      "id": "9GHagUNGNKc3K4QuxmuhSHDXRxU2",
+      "uid": "9GHagUNGNKc3K4QuxmuhSHDXRxU2",
+      "email": "seaf@weq.com",
+      "createdAt": "2025-01-26T10:26:59.910Z"
+    },
+    {
+      "id": "9dgY0JXoIBRmmQol1kVEXTKdyft1",
+      "uid": "9dgY0JXoIBRmmQol1kVEXTKdyft1",
+      "email": "fsdfsfdsf@sdsa.nm",
+      "createdAt": "2025-01-25T16:33:39.766Z"
+    },
+    {
+      "id": "ExampleUser",
+      "name": "",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": "GxpCetBCqiUdEiaWD6pN7Nr8HGd2",
+      "uid": "GxpCetBCqiUdEiaWD6pN7Nr8HGd2",
+      "email": "ggfdggfdfg@ggmnmg.cp",
+      "createdAt": "2025-01-26T17:52:34.182Z"
+    },
+    {
+      "id": "Hg8VH0gnwNOgvsgE5FON46wntMP2",
+      "uid": "Hg8VH0gnwNOgvsgE5FON46wntMP2",
+      "email": "fsfdsfsfds@fdsf.vpkc",
+      "createdAt": "2025-01-27T10:14:25.281Z"
+    },
+    {
+      "id": "Jx72R3hJeLTttVFdpDfDUrw5Op33",
+      "uid": "Jx72R3hJeLTttVFdpDfDUrw5Op33",
+      "email": "dqwdqwdqw@dssa.com",
+      "createdAt": "2025-01-26T17:47:49.355Z"
+    },
+    {
+      "id": "N0xTiWFiIubbA1cOmBA3fYzkEM72",
+      "uid": "N0xTiWFiIubbA1cOmBA3fYzkEM72",
+      "email": "dsadsada@dsfdfs.com",
+      "createdAt": "2025-01-25T16:40:59.083Z"
+    },
+    {
+      "id": "WtQipYh2H3eIIEONWWCIj06ehc93",
+      "uid": "WtQipYh2H3eIIEONWWCIj06ehc93",
+      "email": "fdgfgf@fgbgfdh.bvj",
+      "createdAt": "2025-01-27T10:11:48.469Z"
+    },
+    {
+      "id": "Yk0nlYks8Ye7kTjTXPcsrjqDnPk1",
+      "uid": "Yk0nlYks8Ye7kTjTXPcsrjqDnPk1",
+      "email": "adwada@dfsdfs.com",
+      "createdAt": "2025-01-25T16:51:54.778Z"
+    },
+    {
+      "id": "eqsUYdXOjRYVI0kvQta3QZ8wzKD2",
+      "uid": "eqsUYdXOjRYVI0kvQta3QZ8wzKD2",
+      "email": "sadwsadsa@ddfgd.vfvf",
+      "createdAt": "2025-01-25T16:59:21.432Z"
+    },
+    {
+      "id": "gyncsPMQbQbUNL02zgCNtyLmG8q1",
+      "uid": "gyncsPMQbQbUNL02zgCNtyLmG8q1",
+      "email": "dfs@ffs.vp",
+      "createdAt": "2025-01-25T17:01:16.177Z"
+    },
+    {
+      "id": "iCWDXJqekBQaEOcwBPAXnrjBKQb2",
+      "uid": "iCWDXJqekBQaEOcwBPAXnrjBKQb2",
+      "email": "sdthgf@dszrgtd.com",
+      "createdAt": "2025-01-27T10:03:29.174Z"
+    },
+    {
+      "id": "kHGDXGH8Hqhd83IjKEG6nwKRCog2",
+      "uid": "kHGDXGH8Hqhd83IjKEG6nwKRCog2",
+      "email": "dasdsadsad@dfdsf.com",
+      "createdAt": "2025-01-26T17:04:31.087Z"
+    },
+    {
+      "id": "keROn0te7GURmSaFc5pO5Uz4nr12",
+      "uid": "keROn0te7GURmSaFc5pO5Uz4nr12",
+      "email": "dsfsdsff@dfsf.com",
+      "createdAt": "2025-01-26T20:57:21.030Z"
+    },
+    {
+      "id": "o7zui4r2HMYBJtD5wvg7ppYsVMm2",
+      "uid": "o7zui4r2HMYBJtD5wvg7ppYsVMm2",
+      "email": "sdsadsa@dsfdsf.vvdfv",
+      "createdAt": "2025-01-26T17:53:26.010Z"
+    },
+    {
+      "id": "zApaYyZP8kb2IMolh6EnO8JdALM2",
+      "uid": "zApaYyZP8kb2IMolh6EnO8JdALM2",
+      "email": "hgchvcc@fdsfsdf.com",
+      "createdAt": "2025-01-26T19:10:01.860Z"
+    }
+  ]
+}
